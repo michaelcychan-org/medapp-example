@@ -1,0 +1,23 @@
+{
+  "alan": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-swiftpackagemanager-alan-c78dd-authRole",
+      "UnauthRoleArn": "arn:aws:iam::877986809317:role/amplify-swiftpackagemanager-alan-c78dd-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::877986809317:role/amplify-swiftpackagemanager-alan-c78dd-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-swiftpackagemanager-alan-c78dd-deployment",
+      "UnauthRoleName": "amplify-swiftpackagemanager-alan-c78dd-unauthRole",
+      "StackName": "amplify-swiftpackagemanager-alan-c78dd",
+      "StackId": "arn:aws:cloudformation:us-east-1:877986809317:stack/amplify-swiftpackagemanager-alan-c78dd/173586b0-21f6-11ef-b5a7-12bb0d0df961",
+      "AmplifyAppId": "d312lmgfyy3e9z"
+    },
+    "categories": {
+      "auth": {
+        "swiftpackagemanagerec49d4db": {}
+      },
+      "api": {
+        "amplifyDatasource": {}
+      }
+    }
+  }
+}
