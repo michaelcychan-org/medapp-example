@@ -61,7 +61,7 @@ jobs:
       - name: Create Dummy System Verification Test File
         run: |
           mkdir -p "$path_system"  # Create the directory structure
-          echo "${{path_system}}"
+          echo "$path_system"
           echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
           echo "File created at: $path_system/cucumber-messages.ndjson"
         env:
