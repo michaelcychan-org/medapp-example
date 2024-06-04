@@ -23,17 +23,27 @@ jobs:
           echo "${{ github.repository }}"
           echo "${{ github.ref }}"
           echo "${{ github.sha }}"
-      - name: Create Dummy Item Verification Test File
-        run: |
-          path_item="${{ github.workspace }}/michaelcychan-org/medapp-example/${{ github.ref }}/${{ github.sha }}"
-          echo $path_item
-          mkdir -p "$path_item"  # Create the directory structure
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/item-cucumber-messages.ndjson"
-          echo "File created at: $path_item/item-cucumber-messages.ndjson"
-      - name: Check file permissions
-        run: ls "$path_item"
-      - name: Show the generated file (optional)
-        run: cat "$path_item/item-cucumber-messages.ndjson"
+        - name: Set path_item
+          id: set_path_item
+          run: |
+            path_item="${{ github.workspace }}/michaelcychan-org/medapp-example/${{ github.ref }}/${{ github.sha }}"
+            echo "path_item=$path_item" >> $GITHUB_ENV
+            echo $path_item
+        - name: Create Dummy Item Verification Test File
+          run: |
+            mkdir -p "$path_item"  # Create the directory structure
+            echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/item-cucumber-messages.ndjson"
+            echo "File created at: $path_item/item-cucumber-messages.ndjson"
+          env:
+            path_item: ${{ env.path_item }}
+        - name: Check file permissions
+          run: ls "$path_item"
+          env:
+            path_item: ${{ env.path_item }}
+        - name: Show the generated file (optional)
+          run: cat "$path_item/item-cucumber-messages.ndjson"
+          env:
+            path_item: ${{ env.path_item }}
       - name: Upload Item Verificaiton
         id: upload-item-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
@@ -42,7 +52,9 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
+          path: $path_item/**
+          env:
+            path_item: ${{ env.path_item }}
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
