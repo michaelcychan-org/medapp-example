@@ -38,7 +38,7 @@ jobs:
       - name: Create Dummy Item Verification Test File
         run: |
           mkdir -p "$path_item"  # Create the directory structure
-          echo echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
+          echo echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "timestamp": '$(date +%s)'}' > "$path_item/cucumber-messages.ndjson"
           echo "File created at: $path_item/cucumber-messages.ndjson"
         env:
           path_item: ${{ env.path_item }}
