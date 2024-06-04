@@ -23,6 +23,21 @@ jobs:
           default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
           echo $default | cat >default
           echo Using default scheme: $default
+      - name: Create Dummy Item Verification Test File
+        run: |
+          file_name=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name"
+      - name: Show the generated file (optional)
+        run: cat "$file_name"
+      - name: Upload System Verificaiton
+        id: upload-item-ver
+        uses: coauthor-app/capture-action@v0.1.0-beta
+        with:
+          evidence: 'item-verification'
+          type: 'bdd'
+          format: 'cucumber+ndjson'
+          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
+          path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
       - name: Build
         env:
           scheme: ${{ 'default' }}
@@ -45,9 +60,9 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
-      - name: Create Dummy Test File and upload
+      - name: Create Dummy System Verification Test File
         run: |
-          file_name=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-cucumber-messages.ndjson
+          file_name=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-system-cucumber-messages.ndjson
           echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name"
       - name: Show the generated file (optional)
         run: cat "$file_name"
@@ -59,7 +74,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-cucumber-messages.ndjson
+          path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-system-cucumber-messages.ndjson
       - name: Anchore SBOM Action
         uses: anchore/sbom-action@v0.16.0
         with: 
