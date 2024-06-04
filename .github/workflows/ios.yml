@@ -54,7 +54,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: $path_item/**
+          path: '$path_item/**'
         env:
           path_item: ${{ env.path_item }}
       - name: Set Default Scheme
@@ -104,7 +104,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: $path_system/**
+          path: '${{ env.path_system }}/**'
       - name: Anchore SBOM Action
         uses: anchore/sbom-action@v0.16.0
         with: 
