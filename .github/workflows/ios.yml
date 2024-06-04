@@ -9,6 +9,10 @@ on:
       - synchronize
       - reopened
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
