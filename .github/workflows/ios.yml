@@ -31,8 +31,8 @@ jobs:
       - name: Set paths
         id: set_paths
         run: |
-          path_item="${{ github.workspace }}/${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
-          path_system="${{ github.workspace }}/${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
+          path_item="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
+          path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
           echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_system=$path_system" >> $GITHUB_ENV
       - name: Create Dummy Item Verification Test File
