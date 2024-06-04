@@ -17,19 +17,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set Default Scheme
-        run: |
-          scheme_list=$(xcodebuild -list -json | tr -d "\n")
-          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
-          echo $default | cat >default
-          echo Using default scheme: $default
       - name: Create Dummy Item Verification Test File
         run: |
           file_name_item=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name"
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name_item"
       - name: Show the generated file (optional)
         run: cat "${{ github.workspace }}/$file_name_item"
-      - name: Upload System Verificaiton
+      - name: Upload Item Verificaiton
         id: upload-item-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
         with:
@@ -38,6 +32,12 @@ jobs:
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
           path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
+      - name: Set Default Scheme
+        run: |
+          scheme_list=$(xcodebuild -list -json | tr -d "\n")
+          default=$(echo $scheme_list | ruby -e "require 'json'; puts JSON.parse(STDIN.gets)['project']['targets'][0]")
+          echo $default | cat >default
+          echo Using default scheme: $default
       - name: Build
         env:
           scheme: ${{ 'default' }}
@@ -63,7 +63,7 @@ jobs:
       - name: Create Dummy System Verification Test File
         run: |
           file_name_system=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-system-cucumber-messages.ndjson
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name"
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name_system"
       - name: Show the generated file (optional)
         run: cat "$file_name_system"
       - name: Upload System Verificaiton
