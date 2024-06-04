@@ -26,19 +26,19 @@ jobs:
       - name: Print out variables
         run: |
           echo "${{ github.repository }}"
-          echo "${{ github.ref }}"
+          echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.sha }}"
       - name: Set paths
         id: set_paths
         run: |
-          path_item="${{ github.workspace }}/${{ github.repository }}/${{ github.ref }}/${{ github.sha }}/item"
-          path_system="${{ github.workspace }}/${{ github.repository }}/${{ github.ref }}/${{ github.sha }}/system"
+          path_item="${{ github.workspace }}/${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.sha }}/item"
+          path_system="${{ github.workspace }}/${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.sha }}/system"
           echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_system=$path_system" >> $GITHUB_ENV
       - name: Create Dummy Item Verification Test File
         run: |
           mkdir -p "$path_item"  # Create the directory structure
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/cucumber-messages.ndjson"
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.event.pull_request.head.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/cucumber-messages.ndjson"
           echo "File created at: $path_item/cucumber-messages.ndjson"
         env:
           path_item: ${{ env.path_item }}
@@ -60,7 +60,7 @@ jobs:
       - name: Create Dummy System Verification Test File
         run: |
           mkdir -p "$path_system"  # Create the directory structure
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_system/cucumber-messages.ndjson"
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.event.pull_request.head.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_system/cucumber-messages.ndjson"
           echo "File created at: $path_system/cucumber-messages.ndjson"
         env:
           path_system: ${{ env.path_system }}
