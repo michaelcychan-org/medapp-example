@@ -56,7 +56,7 @@ jobs:
             echo "Report file2: $report_file"
             echo "REPORT_FILE_PATH=$report_file" >> $GITHUB_ENV
           else
-           echo "in else"
+            echo "in else"
             echo "error: Unable to download CucumberSwift report from actual device, you need the ios-deploy tool installed! Install with 'brew install ios-deploy'" > $SRCROOT/CucumberReports/ERROR.txt
             exit 1
           fi
