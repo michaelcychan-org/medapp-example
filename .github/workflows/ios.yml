@@ -27,30 +27,20 @@ jobs:
         id: set_paths
         run: |
           path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
+          path_item="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
           echo "path_system=$path_system" >> $GITHUB_ENV
-      - name: Upload Item Verificaiton
-        id: upload-item-ver
-        uses: coauthor-app/capture-action@v0.1.0-beta
-        with:
-          evidence: 'item-verification'
-          type: 'bdd'
-          format: 'cucumber+ndjson'
-          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: 'reports/item/**'
-      - name: Create Dummy System Verification Test File
+          echo "path_item=$path_item" >> $GITHUB_ENV
+      - name: Create Dummy Verification Test Files
         run: |
           mkdir -p "$path_system"  # Create the directory structure
-          echo "$path_system"
-          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
+          mkdir -p "$path_item"  # Create the directory structure
+          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "verification": "system", "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
+          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "verification": "item", "timestamp": '$(date +%s)'}' > "$path_item/cucumber-messages.ndjson"
           echo "File created at: $path_system/cucumber-messages.ndjson"
+          echo "File created at: $path_item/cucumber-messages.ndjson"
         env:
           path_system: ${{ env.path_system }}
-      - name: Show the generated file (optional)
-        run: |
-          ls "$path_system"
-          cat "$path_system/cucumber-messages.ndjson"
-        env:
-          path_system: ${{ env.path_system }}
+          path_item: ${{ env.path_item}}
       - name: Upload System Verificaiton
         id: upload-system-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
@@ -60,7 +50,15 @@ jobs:
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
           path: '${{ env.path_system }}/**'
-
+      - name: Upload Item Verificaiton
+        id: upload-item-ver
+        uses: coauthor-app/capture-action@v0.1.0-beta
+        with:
+          evidence: 'item-verification'
+          type: 'bdd'
+          format: 'cucumber+ndjson'
+          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
+          path: '${{ env.path_item }}/**'
   build:
     name: Build and Test default scheme using any available iPhone simulator
     runs-on: macos-latest
