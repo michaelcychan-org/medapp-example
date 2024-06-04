@@ -46,9 +46,13 @@ jobs:
           # Post-test script to handle report file
           if [ "$TARGET_DEVICE_PLATFORM_NAME" == "iphonesimulator" ]; then
               report_file=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor$TARGETNAME.json" -print0 | xargs -r -0 ls -1 -t | head -1)
+              echo "Report file1: $report_file"
+              echo "REPORT_FILE_PATH=$report_file" >> $GITHUB_ENV
           elif [ -x "$(command -v ios-deploy)" ]; then
               ios-deploy --download=/Documents --bundle_id $PRODUCT_BUNDLE_IDENTIFIER.xctrunner --to "$SRCROOT/CucumberReports"
               report_file="$SRCROOT/CucumberReports/Documents/CucumberTestResultsFor$TARGETNAME.json"
+              echo "Report file2: $report_file"
+              echo "REPORT_FILE_PATH=$report_file" >> $GITHUB_ENV
           else
               echo "error: Unable to download CucumberSwift report from actual device, you need the ios-deploy tool installed! Install with 'brew install ios-deploy'" > $SRCROOT/CucumberReports/ERROR.txt
               exit 1
