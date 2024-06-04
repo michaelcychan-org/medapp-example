@@ -53,8 +53,8 @@ jobs:
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
           path: $path_item/**
-          env:
-            path_item: ${{ env.path_item }}
+        env:
+          path_item: ${{ env.path_item }}
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
