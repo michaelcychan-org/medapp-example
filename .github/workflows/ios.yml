@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Print out variables
+        run: |
+          echo "${{ github.repository_owner }}"
+          echo "${{ github.repository }}"
+          echo "${{ github.ref }}"
+          echo "${{ github.sha }}"
       - name: Create Dummy Item Verification Test File
         run: |
           file_name_item="${{ github.repository_owner }}-${{ github.repository }}-${{ github.ref }}-${{ github.sha }}-item-cucumber-messages.ndjson"
