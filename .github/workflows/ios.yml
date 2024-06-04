@@ -25,13 +25,14 @@ jobs:
           echo "${{ github.sha }}"
       - name: Create Dummy Item Verification Test File
         run: |
-          file_name_item="${{ github.repository_owner }}-${{ github.repository }}-${{ github.ref }}-${{ github.sha }}-item-cucumber-messages.ndjson"
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name_item"
-          echo "File created: $file_name_item"
+          path_item="${{ github.repository }}/${{ github.ref }}/${{ github.sha }}"
+          echo $path_item
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item_item/item-cucumber-messages.ndjson"
+          echo "File created at : $path_item"
       - name: Check file permissions
-        run: ls -l "$file_name_item"
+        run: ls "$path_item"
       - name: Show the generated file (optional)
-        run: cat "${{ github.workspace }}/$file_name_item"
+        run: cat "$path_item/item-cucumber-messages.ndjson"
       - name: Upload Item Verificaiton
         id: upload-item-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
