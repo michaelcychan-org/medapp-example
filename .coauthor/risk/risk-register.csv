@@ -1,0 +1,2 @@
+Risk ID,Software Component,Sequence of events/Failure/Use error,Hazardous situation,Potential Harm to the user/patient,Probability of hazard occurring (P1),Probability of harm occurring (P2),Severity,Overall risk score,Risk Control to be implemented
+1,Core Module,This is what may happen,The application stops when core module breaks,it affects the user,Improbable,Improbable,Minor,Low,Inform User
