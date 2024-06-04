@@ -1,3 +1,5 @@
+[![iOS Tests](https://github.com/hindsightsoftware/medapp-example/actions/workflows/ios.yml/badge.svg)](https://github.com/hindsightsoftware/medapp-example/actions/workflows/ios.yml)
+
 ## Hi,
 
 The project is built using 
