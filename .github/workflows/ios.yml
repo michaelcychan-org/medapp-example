@@ -43,16 +43,20 @@ jobs:
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
 
-          # Find Cucumber Report
+          # Post-run script to find and upload the Cucumber report
           TARGET_DEVICE_IDENTIFIER=$(xcrun simctl list devices | grep -oE '([0-9A-F-]{36})' | head -1)
-          FILE_PATH=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsForCucumberSwiftSampleUITests.json")
+          FILE_PATH=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor${{ env.TARGET_NAME }}.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           echo "FILE_PATH=${FILE_PATH}"
-          echo "TARGET_DEVICE_IDENTIFIER=${TARGET_DEVICE_IDENTIFIER}"
           echo "cucumberReportPath=${FILE_PATH}" >> $GITHUB_ENV
 
           # Upload Cucumber Report
           echo "Uploading Cucumber report..."
-          actions/upload-artifact@v2
-          with:
-            name: cucumber-reports
-            path: ${{ env.cucumberReportPath }}
+          if [ -f "$FILE_PATH" ]; then
+            tar -czvf cucumber-report.tar.gz "$FILE_PATH"
+            curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                 -H "Content-Type: application/octet-stream" \
+                 --data-binary @cucumber-report.tar.gz \
+                 "https://uploads.github.com/repos/${{ github.repository }}/actions/artifacts/${{ github.run_id }}"
+          else
+            echo "Cucumber report not found!"
+          fi
