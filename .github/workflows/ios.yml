@@ -37,18 +37,6 @@ jobs:
           path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
           echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_system=$path_system" >> $GITHUB_ENV
-      - name: Create Dummy Item Verification Test File
-        run: |
-          mkdir -p "$path_item"  # Create the directory structure
-          echo "$path_item"
-          echo echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.event.pull_request.head.ref }}', "sha": '${{ github.event.pull_request.head.sha }}', "timestamp": '$(date +%s)'}' > "$path_item/cucumber-messages.ndjson"
-          echo "File created at: $path_item/cucumber-messages.ndjson"
-        env:
-          path_item: ${{ env.path_item }}
-      - name: Show the generated file (optional)
-        run: cat "$path_item/cucumber-messages.ndjson"
-        env:
-          path_item: ${{ env.path_item }}
       - name: Upload Item Verificaiton
         id: upload-item-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
@@ -57,7 +45,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: '${{ env.path_item }}/**'
+          path: 'reports/item/**'
       - name: Create Dummy System Verification Test File
         run: |
           mkdir -p "$path_system"  # Create the directory structure
