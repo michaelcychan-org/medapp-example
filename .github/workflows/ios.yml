@@ -44,13 +44,16 @@ jobs:
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
       - name: Find Cucumber Report
         id: resolve_path
+        env:
+          TARGET_DEVICE_IDENTIFIER: ${{ secrets.TARGET_DEVICE_IDENTIFIER }}
+          TARGETNAME: ${{ secrets.TARGETNAME }}
         run: |
           # Replace TARGET_DEVICE_IDENTIFIER and TARGETNAME with your variables or context
           FILE_PATH=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor$TARGETNAME.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           echo "FILE_PATH=${FILE_PATH}"
-          echo "::set-output name=cucumberReportPath::${FILE_PATH}"
+          echo "cucumberReportPath=${FILE_PATH}" >> $GITHUB_ENV
       - name: Upload Cucumber Report
         uses: actions/upload-artifact@v2
         with:
           name: cucumber-reports
-          path: ${{ steps.resolve_path.outputs.cucumberReportPath }}
+          path: ${{ env.cucumberReportPath }}
