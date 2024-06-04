@@ -54,9 +54,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: '$path_item/**'
-        env:
-          path_item: ${{ env.path_item }}
+          path: '${{ env.path_item }}/**'
       - name: Create Dummy System Verification Test File
         run: |
           mkdir -p "$path_system"  # Create the directory structure
