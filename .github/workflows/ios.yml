@@ -25,6 +25,8 @@ jobs:
           token: ${{ secrets.ACTION_TOKEN }}
       - name: Print out variables
         run: |
+          pwd
+          echo "${{ github.workspace }}"
           echo "${{ github.repository }}"
           echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.event.pull_request.head.sha }}"
@@ -33,6 +35,8 @@ jobs:
         run: |
           path_item="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
           path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
+          echo "path_item=$path_item"
+          echo "path_system=$path_system"
           echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_system=$path_system" >> $GITHUB_ENV
       - name: Create Dummy Item Verification Test File
