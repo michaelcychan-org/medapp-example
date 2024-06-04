@@ -1,4 +1,4 @@
-name: iOS Cucumber+Reports
+name: iOS CucumberReports
 
 on:
   push:
