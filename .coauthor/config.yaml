@@ -1,0 +1,37 @@
+Company: Hindsight
+Application: Example SaMD
+ProductDescription: |
+  This is an example application to show how Coauthor can assist MedTech development teams to comply with IEC 62304 requirements.
+Market:
+  - UK
+SoftwareClassification:
+  Questions:
+    HazardousSituationPossible: true
+    FailureUnacceptableRisk: false
+  SafetyClass: A
+  Rationale: Because the failure of this application would not cause unacceptable risk, this is a Class A application.
+TestingTools:
+  SystemTesting:
+    - Cucumber
+  SecurityTesting:
+    - ZAP
+    - Burp
+  CompatabilityTesting:
+    - BrowserStack
+Security:
+  CommitSigning: false
+  PenetrationTesting:
+    Required: false
+  SAST:
+    Tools:
+      - "SonarQube"
+      - "Checkmarx"
+    Frequency: "Every Build"
+  SBOM:
+    GenerationTools:
+      - "WhiteSource"
+      - "BlackDuck"
+    MonitoringTools:
+      - "WhiteSource"
+      - "BlackDuck"
+    Frequency: "Every Build"
