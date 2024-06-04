@@ -1,13 +1,6 @@
 name: iOS starter workflow
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
+on: [push]
 
 permissions:
   id-token: write
@@ -33,9 +26,7 @@ jobs:
       - name: Set paths
         id: set_paths
         run: |
-          path_item="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
           path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
-          echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_system=$path_system" >> $GITHUB_ENV
       - name: Upload Item Verificaiton
         id: upload-item-ver
