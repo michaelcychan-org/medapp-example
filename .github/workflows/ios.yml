@@ -17,31 +17,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
       - name: Print out variables
         run: |
-          echo "${{ github.repository_owner }}"
           echo "${{ github.repository }}"
           echo "${{ github.ref }}"
           echo "${{ github.sha }}"
-      - name: Set path_item
-        id: set_path_item
+      - name: Set paths
+        id: set_paths
         run: |
-          path_item="${{ github.workspace }}/michaelcychan-org/medapp-example/${{ github.ref }}/${{ github.sha }}"
+          path_item="${{ github.workspace }}/${{ github.repository }}/${{ github.ref }}/${{ github.sha }}/item"
+          path_system="${{ github.workspace }}/${{ github.repository }}/${{ github.ref }}/${{ github.sha }}/system"
           echo "path_item=$path_item" >> $GITHUB_ENV
-          echo $path_item
+          echo "path_system=$path_system" >> $GITHUB_ENV
       - name: Create Dummy Item Verification Test File
         run: |
           mkdir -p "$path_item"  # Create the directory structure
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/item-cucumber-messages.ndjson"
-          echo "File created at: $path_item/item-cucumber-messages.ndjson"
-        env:
-          path_item: ${{ env.path_item }}
-      - name: Check file permissions
-        run: ls "$path_item"
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/cucumber-messages.ndjson"
+          echo "File created at: $path_item/cucumber-messages.ndjson"
         env:
           path_item: ${{ env.path_item }}
       - name: Show the generated file (optional)
-        run: cat "$path_item/item-cucumber-messages.ndjson"
+        run: cat "$path_item/cucumber-messages.ndjson"
         env:
           path_item: ${{ env.path_item }}
       - name: Upload Item Verificaiton
@@ -85,10 +83,15 @@ jobs:
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
       - name: Create Dummy System Verification Test File
         run: |
-          file_name_system=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-system-cucumber-messages.ndjson
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name_system"
+          mkdir -p "$path_system"  # Create the directory structure
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_system/cucumber-messages.ndjson"
+          echo "File created at: $path_system/cucumber-messages.ndjson"
+        env:
+          path_system: ${{ env.path_system }}
       - name: Show the generated file (optional)
-        run: cat "$file_name_system"
+        run: cat "$path_system/cucumber-messages.ndjson"
+        env:
+          path_system: ${{ env.path_system }}
       - name: Upload System Verificaiton
         id: upload-system-ver
         uses: coauthor-app/capture-action@v0.1.0-beta
@@ -97,7 +100,7 @@ jobs:
           type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: ${{ github.workspace }}/ ${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-system-cucumber-messages.ndjson
+          path: $path_system/**
       - name: Anchore SBOM Action
         uses: anchore/sbom-action@v0.16.0
         with: 
