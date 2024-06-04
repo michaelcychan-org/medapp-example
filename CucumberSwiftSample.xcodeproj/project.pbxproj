@@ -206,6 +206,7 @@
 				CA6E369025B38C05005863FB /* Sources */,
 				CA6E369125B38C05005863FB /* Frameworks */,
 				CA6E369225B38C05005863FB /* Resources */,
+				D3CBCAAF2C0F1A93007C3183 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -295,6 +296,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D3CBCAAF2C0F1A93007C3183 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash -x\n# set -x\n# exec > /tmp/my_log_file.txt 2>&1\nrm -f $SRCROOT/CucumberReports/ERROR.txt\nmkdir -p $SRCROOT/CucumberReports\nif [ \"$TARGET_DEVICE_PLATFORM_NAME\" == \"iphonesimulator\" ]; then\n    find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name \"CucumberTestResultsFor$TARGETNAME.json\" -print0 | xargs -r -0 ls -1 -t | head -1 | xargs -I '{}' mv '{}' $SRCROOT/CucumberReports\nelif [ -x \"$(command -v ios-deploy)\" ]; then\n    ios-deploy --download=/Documents --bundle_id $PRODUCT_BUNDLE_IDENTIFIER.xctrunner --to \"$SRCROOT/CucumberReports\"\n    cp \"$SRCROOT/CucumberReports/Documents/CucumberTestResultsFor$TARGETNAME.json\" \"$SRCROOT/CucumberReports/CucumberTestResultsFor$TARGETNAME.json\"\n    rm -rf \"$SRCROOT/CucumberReports/Documents/\"\nelse\n    echo \"error: Unable to download CucumberSwift report from actual device, you need the ios-deploy tool installed! Install with 'brew install ios-deploy'\" > $SRCROOT/CucumberReports/ERROR.txt\n    exit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CA6E366F25B38C04005863FB /* Sources */ = {
