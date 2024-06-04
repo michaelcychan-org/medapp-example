@@ -57,6 +57,26 @@ jobs:
           path: '$path_item/**'
         env:
           path_item: ${{ env.path_item }}
+      - name: Create Dummy System Verification Test File
+        run: |
+          mkdir -p "$path_system"  # Create the directory structure
+          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_system/cucumber-messages.ndjson"
+          echo "File created at: $path_system/cucumber-messages.ndjson"
+        env:
+          path_system: ${{ env.path_system }}
+      - name: Show the generated file (optional)
+        run: cat "$path_system/cucumber-messages.ndjson"
+        env:
+          path_system: ${{ env.path_system }}
+      - name: Upload System Verificaiton
+        id: upload-system-ver
+        uses: coauthor-app/capture-action@v0.1.0-beta
+        with:
+          evidence: 'system-verification'
+          type: 'bdd'
+          format: 'cucumber+ndjson'
+          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
+          path: '${{ env.path_system }}/**'
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
@@ -85,26 +105,6 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
-      - name: Create Dummy System Verification Test File
-        run: |
-          mkdir -p "$path_system"  # Create the directory structure
-          echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_system/cucumber-messages.ndjson"
-          echo "File created at: $path_system/cucumber-messages.ndjson"
-        env:
-          path_system: ${{ env.path_system }}
-      - name: Show the generated file (optional)
-        run: cat "$path_system/cucumber-messages.ndjson"
-        env:
-          path_system: ${{ env.path_system }}
-      - name: Upload System Verificaiton
-        id: upload-system-ver
-        uses: coauthor-app/capture-action@v0.1.0-beta
-        with:
-          evidence: 'system-verification'
-          type: 'bdd'
-          format: 'cucumber+ndjson'
-          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
-          path: '${{ env.path_system }}/**'
       - name: Anchore SBOM Action
         uses: anchore/sbom-action@v0.16.0
         with: 
