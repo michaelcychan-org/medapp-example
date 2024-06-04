@@ -14,9 +14,9 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and Test default scheme using any available iPhone simulator
-    runs-on: macos-latest
+  upload-reports:
+    name: Upload verification reports
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -81,6 +81,15 @@ jobs:
           format: 'cucumber+ndjson'
           hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
           path: '${{ env.path_system }}/**'
+
+  build:
+    name: Build and Test default scheme using any available iPhone simulator
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
