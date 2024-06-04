@@ -45,7 +45,7 @@ jobs:
 
           # Find Cucumber Report
           TARGET_DEVICE_IDENTIFIER=$(xcrun simctl list devices | grep -oE '([0-9A-F-]{36})' | head -1)
-          FILE_PATH=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor$TARGETNAME.json" -print0 | xargs -r -0 ls -1 -t | head -1)
+          FILE_PATH=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsForCucumberSwiftSampleUITests.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           echo "FILE_PATH=${FILE_PATH}"
           echo "TARGET_DEVICE_IDENTIFIER=${TARGET_DEVICE_IDENTIFIER}"
           echo "cucumberReportPath=${FILE_PATH}" >> $GITHUB_ENV
