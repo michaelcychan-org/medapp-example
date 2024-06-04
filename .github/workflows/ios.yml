@@ -57,11 +57,9 @@ jobs:
               echo "error: Unable to download CucumberSwift report from actual device, you need the ios-deploy tool installed! Install with 'brew install ios-deploy'" > $SRCROOT/CucumberReports/ERROR.txt
               exit 1
           fi
-
-          echo "Report file: $report_file"
       
       - name: Upload Cucumber Test Results
         uses: actions/upload-artifact@v3
         with:
           name: cucumber-test-results
-          path: ${{ report_file }}
+          path: ${{ env.REPORT_FILE_PATH }}
