@@ -20,10 +20,10 @@ extension Cucumber: StepImplementation {
             app.launch()
         }
         Given(/^CucumberSwift is setup correctly$/) { _, _ in
-            
+            XCTAssert(true)
         }
         Then(/^Press the login button$/) { _, _ in
-            
+            XCTAssert(true)
         }
     }
 }
