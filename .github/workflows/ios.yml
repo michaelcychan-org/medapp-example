@@ -21,6 +21,8 @@ jobs:
         run: |
           file_name_item=${{ github.repository_owner }}-${{ github.repo }}-${{ github.base }}-${{ github.sha }}-item-cucumber-messages.ndjson
           echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repo }}", "branch": "{{ github.base }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$file_name_item"
+      - name: Check file permissions
+        run: ls -l "$file_name_item"
       - name: Show the generated file (optional)
         run: cat "${{ github.workspace }}/$file_name_item"
       - name: Upload Item Verificaiton
