@@ -25,6 +25,7 @@ jobs:
           echo "${{ github.sha }}"
       - name: Create Dummy Item Verification Test File
         run: |
+          path_item="${{ github.workspace }}/michaelcychan-org/medapp-example/${{ github.ref }}/${{ github.sha }}"
           echo $path_item
           mkdir -p "$path_item"  # Create the directory structure
           echo '{"owner": "{{ github.repository_owner }}", "repository": "{{ github.repository }}", "branch": "{{ github.ref }}", "sha": "{{ github.sha }}", "timestamp": $(date +%s)}' > "$path_item/item-cucumber-messages.ndjson"
