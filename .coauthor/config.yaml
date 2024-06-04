@@ -1,0 +1,66 @@
+Company: michaelcychan-org
+Application: Example SaMD
+ProductDescription: |
+  This is an example application for Coauthor Demo.
+  Coauthor is your Compliance Assist . Coauthor continually monitors your Software Development tools (GitHub) and technical file for compliance issues against IEC 62304 and highlights them in real-time to the software development team or QA/RA manager.
+Market:
+  - EU
+  - UK
+SoftwareClassification:
+  Questions:
+    HazardousSituationPossible: false
+  SafetyClass: A
+  Rationale: |
+    This is a class A rationale
+    This is a class A rationale
+TestingTools:
+  SystemTesting:
+    - Cucumber
+  SecurityTesting:
+    - ZAP
+  CompatabilityTesting:
+    - BrowserStack
+Roles:
+  # Please add/change GitHub usernames to the following roles
+  Management:
+    Lead: michaelcychan
+    Members:
+      - michaelcychan
+  SWDevelopment:
+    Lead: michaelcychan
+    Members:
+      - michaelcychan
+  Clinical:
+    Lead: michaelcychan
+    Members:
+      - michaelcychan
+  QARA:
+    Lead: michaelcychan
+    Members:
+      - michaelcychan
+SDLC:
+  IssueTracking:
+    Provider: "GitHub"
+    TrackingProjectLink: replace-me-with-bug-tracking-project-link
+  BranchingStrategy: "Feature Branching"
+  CommitMessageFormat: "Conventional Commits"
+  Methodology: "SCRUM"
+  IterationLength: 2
+Security:
+  CommitSigning: false
+  PenetrationTesting:
+    Required: true
+    Frequency: "Quarterly"
+  SAST:
+    Tools:
+      - "SonarQube"
+      - "Checkmarx"
+    Frequency: "Every Build"
+  SBOM:
+    GenerationTools:
+      - "WhiteSource"
+      - "BlackDuck"
+    MonitoringTools:
+      - "WhiteSource"
+      - "BlackDuck"
+    Frequency: "Every Build"

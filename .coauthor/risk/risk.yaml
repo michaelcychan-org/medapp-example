@@ -1,0 +1,89 @@
+Probability:
+  - Class: Frequent
+    SemiQuantitative: "> 1 in 1000"
+    Interpretation: Certain or almost certain; highly likely to occur
+  - Class: Probable
+    SemiQuantitative: "1 in 1000 to 1 in 10000"
+    Interpretation: Not certain but very possible; reasonably expected to occur in the majority of cases
+  - Class: Occasional
+    SemiQuantitative: "1 in 10,000 to 1 in 100,000"
+    Interpretation: Possible
+  - Class: Remote
+    SemiQuantitative: "1 in 100,000 to 1 in 1,000,000"
+    Interpretation: Could occur but in the majority of occasions will not
+  - Class: Improbable
+    SemiQuantitative: "< 1 in 1,000,000"
+    Interpretation: Negligible or nearly negligible possibility of occurring
+Severity:
+  - Class: Catastrophic
+    EndUserImpact: |
+      Severe impact to the confidentiality, availability or integrity of data, impacting multiple companies, groups, entities, systems or individuals
+    SecurityImpact: |
+      Death of multiple patients.
+      Permanent life-changing incapacity and any condition for which the prognosis is death or permanent life-changing incapacity; severe injury or severe incapacity from which recovery is not expected in the short term for multiple patients.
+  - Class: Major
+    EndUserImpact: |
+      Major impact to the confidentiality, availability or integrity of data, impacting multiple companies, groups, entities, systems or individuals; OR severe impact to one individual.
+    SecurityImpact: |
+      Death of a single patient.
+      Permanent life-changing incapacity and any condition for which the prognosis is death or permanent life-changing incapacity; severe injury or severe incapacity from which recovery is not expected in the short term for a single patient.
+      Severe injury or severe incapacity from which recovery is expected in the short term for multiple patients.
+      Severe psychological trauma for multiple patients.
+  - Class: Considerable
+    EndUserImpact: |
+      Moderate impact to the confidentiality, availability or integrity of data, impacting multiple individuals/groups of individuals/companies; OR moderate to major impact to an individual.
+    SecurityImpact: |
+      Severe injury or severe incapacity from which recovery is expected in the short term for a single patient.
+      Severe psychological trauma for a single patient.
+      Minor injury or injuries from which recovery is not expected in the short term for multiple patients.
+      Significant psychological trauma for multiple patients.
+  - Class: Minor
+    EndUserImpact: |
+      Very low impact to the confidentiality, availability or integrity of data, impacting multiple individuals/groups of individuals/companies; OR very low to low impact to an individual.
+    SecurityImpact: |
+      Minor injury from which recovery is expected in the short term for a single patient.
+      Minor psychological upset; inconvenience; any negligible severity for a single patient.
+RiskScore:
+  High:
+    - Probability: Frequent
+      Severity: Catastrophic
+    - Probability: Frequent
+      Severity: Major
+    - Probability: Frequent
+      Severity: Considerable
+    - Probability: Probable
+      Severity: Catastrophic
+    - Probability: Probable
+      Severity: Major
+    - Probability: Probable
+      Severity: Considerable
+    - Probability: Occasional
+      Severity: Catastrophic
+    - Probability: Occasional
+      Severity: Major
+    - Probability: Remote
+      Severity: Catastrophic
+  Medium:
+    - Probability: Occasional
+      Severity: Considerable
+    - Probability: Remote
+      Severity: Major
+    - Probability: Improbable
+      Severity: Catastrophic
+    - Probability: Improbable
+      Severity: Major
+  Low:
+    - Probability: Frequent
+      Severity: Minor
+    - Probability: Probable
+      Severity: Minor
+    - Probability: Occasional
+      Severity: Minor
+    - Probability: Remote
+      Severity: Considerable
+    - Probability: Remote
+      Severity: Minor
+    - Probability: Improbable
+      Severity: Considerable
+    - Probability: Improbable
+      Severity: Minor
