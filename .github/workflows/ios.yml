@@ -44,21 +44,20 @@ jobs:
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
 
           # Post-test script to handle report file
-          rm -f $SRCROOT/CucumberReports/ERROR.txt
-          mkdir -p $SRCROOT/CucumberReports
           if [ "$TARGET_DEVICE_PLATFORM_NAME" == "iphonesimulator" ]; then
-              find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor$TARGETNAME.json" -print0 | xargs -r -0 ls -1 -t | head -1 | xargs -I '{}' mv '{}' $SRCROOT/CucumberReports$TARGETNAME
+              report_file=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsFor$TARGETNAME.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           elif [ -x "$(command -v ios-deploy)" ]; then
               ios-deploy --download=/Documents --bundle_id $PRODUCT_BUNDLE_IDENTIFIER.xctrunner --to "$SRCROOT/CucumberReports"
-              cp "$SRCROOT/CucumberReports/Documents/CucumberTestResultsFor$TARGETNAME.json" "$SRCROOT/CucumberReports/CucumberTestResultsFor$TARGETNAME.json"
-              rm -rf "$SRCROOT/CucumberReports/Documents/"
+              report_file="$SRCROOT/CucumberReports/Documents/CucumberTestResultsFor$TARGETNAME.json"
           else
               echo "error: Unable to download CucumberSwift report from actual device, you need the ios-deploy tool installed! Install with 'brew install ios-deploy'" > $SRCROOT/CucumberReports/ERROR.txt
               exit 1
           fi
-          
-      - name: Upload Cucumber Report
-        uses: actions/upload-artifact@v2
+
+          echo "Report file: $report_file"
+      
+      - name: Upload Cucumber Test Results
+        uses: actions/upload-artifact@v3
         with:
-          name: cucumber-reports
-          path: $SRCROOT/CucumberReports/CucumberTestResultsFor$TARGETNAME.json
+          name: cucumber-test-results
+          path: ${{ report_file }}
