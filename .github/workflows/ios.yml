@@ -46,7 +46,7 @@ jobs:
           evidence: 'system-verification'
           type: 'bdd'
           format: 'cucumber+ndjson'
-          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
+          hostname: ${{ env.COAUTHOR_UPLOAD }}
           path: '${{ env.path_system }}/**'
       - name: Upload Item Verificaiton
         id: upload-item-ver
@@ -55,7 +55,7 @@ jobs:
           evidence: 'item-verification'
           type: 'bdd'
           format: 'cucumber+ndjson'
-          hostname: 'nll3vb6d1l.execute-api.eu-west-2.amazonaws.com'
+          hostname: ${{ env.COAUTHOR_UPLOAD }}
           path: '${{ env.path_item }}/**'
   build:
     name: Build and Test default scheme using any available iPhone simulator
