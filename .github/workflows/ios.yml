@@ -18,7 +18,7 @@ jobs:
       - name: Print out variables
         run: |
           pwd
-          echo "${{ github.workspace }}"
+          echo "${{ env.UPLOAD_JOB }}"
           echo "${{ github.repository }}"
           echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.event.pull_request.head.sha }}"
