@@ -10,6 +10,7 @@ jobs:
   upload-reports:
     name: Upload verification reports
     runs-on: ubuntu-latest
+    environment: COAUTHOR
 
     steps:
       - name: Checkout
@@ -21,7 +22,6 @@ jobs:
           echo "${{ github.repository }}"
           echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.event.pull_request.head.sha }}"
-          echo "${{ COAUTHOR.UPLOAD_JOB }}"
       - name: Set paths
         id: set_paths
         run: |
@@ -47,7 +47,7 @@ jobs:
           evidence: 'system-verification'
           type: 'bdd'
           format: 'cucumber+ndjson'
-          hostname: ${{ COAUTHOR.UPLOAD_JOB }}
+          hostname: ${{ env.UPLOAD_JOB }}
           path: '${{ env.path_system }}/**'
       - name: Upload Item Verificaiton
         id: upload-item-ver
@@ -56,7 +56,7 @@ jobs:
           evidence: 'item-verification'
           type: 'bdd'
           format: 'cucumber+ndjson'
-          hostname: ${{ COAUTHOR.UPLOAD_JOB }}
+          hostname: ${{ env.UPLOAD_JOB }}
           path: '${{ env.path_item }}/**'
   build:
     name: Build and Test default scheme using any available iPhone simulator
