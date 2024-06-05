@@ -1,0 +1,52 @@
+[
+  {
+    "uri" : "file:\/\/\/Users\/ranajaved\/Library\/Developer\/CoreSimulator\/Devices\/8CDE021C-DD0D-4131-BD50-FD368538C755\/data\/Containers\/Bundle\/Application\/E2B09BBD-D91A-4C37-8D1F-3F3B11F255A5\/CucumberSwiftSampleUITests-Runner.app\/PlugIns\/CucumberSwiftSampleUITests.xctest\/AppFeatures\/FirstFeature.feature",
+    "elements" : [
+      {
+        "description" : "",
+        "steps" : [
+          {
+            "arguments" : [
+
+            ],
+            "keyword" : "Given",
+            "name" : "CucumberSwift is setup correctly",
+            "result" : {
+              "status" : "passed",
+              "duration" : 2188376069.0689087
+            },
+            "line" : 4
+          },
+          {
+            "name" : "Press the login button",
+            "keyword" : "Then",
+            "line" : 5,
+            "arguments" : [
+
+            ],
+            "result" : {
+              "duration" : 1152992.2485351562,
+              "status" : "passed"
+            }
+          }
+        ],
+        "keyword" : "Scenario",
+        "line" : 3,
+        "id" : "a-single-scenario",
+        "name" : "A single scenario",
+        "type" : "scenario",
+        "tags" : [
+
+        ]
+      }
+    ],
+    "name" : "A feature we would like to describe",
+    "id" : "a-feature-we-would-like-to-describe",
+    "tags" : [
+
+    ],
+    "line" : 1,
+    "keyword" : "Feature",
+    "description" : ""
+  }
+]
