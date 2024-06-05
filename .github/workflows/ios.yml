@@ -21,6 +21,7 @@ jobs:
           echo "${{ github.repository }}"
           echo "${{ github.event.pull_request.head.ref }}"
           echo "${{ github.event.pull_request.head.sha }}"
+          echo "${{ env.COAUTHOR_UPLOAD }}"
       - name: Set paths
         id: set_paths
         run: |
