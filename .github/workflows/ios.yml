@@ -15,12 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Print out variables
-        run: |
-          echo "${{ vars.UPLOAD_JOB }}"
-          echo "${{ github.repository }}"
-          echo "${{ github.ref_name }}"
-          echo "${{ github.sha }}"
       - name: Set paths
         id: set_paths
         run: |
