@@ -10,7 +10,6 @@ jobs:
   upload-reports:
     name: Upload verification reports
     runs-on: ubuntu-latest
-    environment: COAUTHOR
 
     steps:
       - name: Checkout
