@@ -10,22 +10,15 @@ jobs:
   upload-reports:
     name: Upload verification reports
     runs-on: ubuntu-latest
-    environment: COAUTHOR
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Print out variables
-        run: |
-          echo "${{ vars.UPLOAD_JOB }}"
-          echo "${{ github.repository }}"
-          echo "${{ github.ref_name }}"
-          echo "${{ github.sha }}"
       - name: Set paths
         id: set_paths
         run: |
-          path_system="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/system"
-          path_item="${{ github.repository }}/${{ github.event.pull_request.head.ref }}/${{ github.event.pull_request.head.sha }}/item"
+          path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
+          path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
           echo "path_system=$path_system" >> $GITHUB_ENV
           echo "path_item=$path_item" >> $GITHUB_ENV
       - name: Create Dummy Verification Test Files
