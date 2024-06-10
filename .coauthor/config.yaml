@@ -1,4 +1,4 @@
-Company: michaelcychan-org
+Company: Hindsight
 Application: Example SaMD
 ProductDescription: |
   This is an example application for Coauthor Demo.
@@ -11,8 +11,8 @@ SoftwareClassification:
     HazardousSituationPossible: false
   SafetyClass: A
   Rationale: |
-    This is a class A rationale
-    This is a class A rationale
+    This app is not causing any hazardous situation even when failed
+    As such, it is a Class A application
 TestingTools:
   SystemTesting:
     - Cucumber
