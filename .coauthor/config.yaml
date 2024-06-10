@@ -11,7 +11,7 @@ SoftwareClassification:
     HazardousSituationPossible: false
   SafetyClass: A
   Rationale: |
-    This is a class A rationale
+    Random 
     This is a class A rationale
 TestingTools:
   SystemTesting:
