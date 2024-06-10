@@ -12,7 +12,7 @@ SoftwareClassification:
   SafetyClass: A
   Rationale: |
     Random 
-    This is a class A rationale
+    should not trigger check runs or anything
 TestingTools:
   SystemTesting:
     - Cucumber
