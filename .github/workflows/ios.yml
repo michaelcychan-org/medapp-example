@@ -35,7 +35,7 @@ jobs:
         uses: coauthor-app/capture-action@v1
         with:
           evidence: 'system-verification'
-          type: 'test'
+          type: 'bdd'
           format: 'cucumber+ndjson'
           hostname: ${{ vars.UPLOAD_JOB }}
           path: '${{ env.path_system }}/**'
