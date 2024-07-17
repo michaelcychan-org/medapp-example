@@ -1,0 +1,74 @@
+Name: System
+SOUP:
+  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift@2.35.5
+    Manufacturer: AWS
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is to use AWS Amplify in the iOS application.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift-utils-notifications@1.1.1
+    Manufacturer: AWS
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is for AWS Amplify notification in the iOS application.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/awslabs/aws-crt-swift@0.26.0
+    Manufacturer: AWS
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is AWS CRT in the iOS application.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/awslabs/aws-sdk-swift@0.36.2
+    Manufacturer: AWS
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is AWS SDK.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/Tyler-Keith-Thompson/CucumberSwift@5.0.1
+    Manufacturer: TKT
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is a package to run Cucumber tests for Swift.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/Tyler-Keith-Thompson/CucumberSwiftExpressions@0.0.8
+    Manufacturer: TKT
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is a package to run Cucumber tests for Swift.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/smithy-lang/smithy-swift@0.41.1
+    Manufacturer: AWS
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is a Smithy package for Swift.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/stephencelis/SQLite.swift@0.15.3
+    Manufacturer: SC
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is to read and write to SQLite database.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
+  - PURL: pkg:swift/github.com/apple/swift-log@1.6.1
+    Manufacturer: SC
+    PackageManager: Swift Package Manager
+    Requirement: |
+      This is to for logging.
+    VerificationReasoning: |
+      Verification Reasoning Line 1
+      Verification Reasoning Line 2
