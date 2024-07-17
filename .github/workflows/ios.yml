@@ -88,6 +88,8 @@ jobs:
           npm install -g @cyclonedx/cdxgen
           mkdir -p "$env.path_sbom"  # Create the directory structure
           cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
+        env:
+          path_sbom: ${{ env.path_sbom }}
       - name: Upload SBOM
         id: upload-sbom
         uses: coauthor-app/capture-action@v1
