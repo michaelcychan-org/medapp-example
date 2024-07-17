@@ -19,10 +19,8 @@ jobs:
         run: |
           path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
           path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
-          path_sbom="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/sbom"
           echo "path_system=$path_system" >> $GITHUB_ENV
           echo "path_item=$path_item" >> $GITHUB_ENV
-          echo "path_sbom=$path_sbom" >> $GITHUB_ENV
       - name: Create Dummy Verification Test Files
         run: |
           mkdir -p "$path_system"  # Create the directory structure
@@ -48,8 +46,8 @@ jobs:
         uses: coauthor-app/capture-action@v1
         with:
           evidence: 'item-verification'
-          type: 'bdd'
-          format: 'cucumber+ndjson'
+          type: 'test'
+          format: 'junit'
           hostname: ${{ vars.UPLOAD_JOB }}
           path: '${{ env.path_item }}/**'
   build:
@@ -59,7 +57,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
@@ -84,11 +81,7 @@ jobs:
       - name: Create path
         id: set_paths
         run: |
-          path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
-          path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
           path_sbom="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/sbom"
-          echo "path_system=$path_system" >> $GITHUB_ENV
-          echo "path_item=$path_item" >> $GITHUB_ENV
           echo "path_sbom=$path_sbom" >> $GITHUB_ENV
       - name: Install CDXGen and build SBOM
         run: |
