@@ -34,23 +34,6 @@ jobs:
         env:
           path_system: ${{ env.path_system }}
           path_item: ${{ env.path_item}}
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-      - name: Install CDXGen and build SBOM
-        run: |
-          npm install -g @cyclonedx/cdxgen
-          cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
-      - name: Upload SBOM
-        id: upload-sbom
-        uses: coauthor-app/capture-action@v1
-        with:
-          evidence: 'cybersecurity'
-          type: 'sbom'
-          format: 'cyclonedx'
-          hostname: ${{ vars.UPLOAD_JOB }}
-          path: '${{ env.path_sbom }}/**'
       - name: Upload System Verificaiton
         id: upload-system-ver
         uses: coauthor-app/capture-action@v1
@@ -94,6 +77,33 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild build-for-testing -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device"
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Create path
+        id: set_paths
+        run: |
+          path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
+          path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
+          path_sbom="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/sbom"
+          echo "path_system=$path_system" >> $GITHUB_ENV
+          echo "path_item=$path_item" >> $GITHUB_ENV
+          echo "path_sbom=$path_sbom" >> $GITHUB_ENV
+      - name: Install CDXGen and build SBOM
+        run: |
+          npm install -g @cyclonedx/cdxgen
+          mkdir -p "$env.path_sbom"  # Create the directory structure
+          cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
+      - name: Upload SBOM
+        id: upload-sbom
+        uses: coauthor-app/capture-action@v1
+        with:
+          evidence: 'cybersecurity'
+          type: 'sbom'
+          format: 'cyclonedx'
+          hostname: ${{ vars.UPLOAD_JOB }}
+          path: '${{ env.path_sbom }}/**'
       - name: Test
         id: run-tests
         env:
