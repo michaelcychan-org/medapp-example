@@ -17,8 +17,8 @@ jobs:
       - name: Set paths
         id: set_paths
         run: |
-          path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
-          path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
+          path_system="${{ github.sha }}/system"
+          path_item="${{ github.sha }}/item"
           echo "path_system=$path_system" >> $GITHUB_ENV
           echo "path_item=$path_item" >> $GITHUB_ENV
       - name: Create Dummy Verification Test Files
@@ -26,9 +26,7 @@ jobs:
           mkdir -p "$path_system"  # Create the directory structure
           mkdir -p "$path_item"  # Create the directory structure
           echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.ref_name }}', "sha": '${{ github.sha }}', "verification": "system", "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
-          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.ref_name }}', "sha": '${{ github.sha }}', "verification": "item", "timestamp": '$(date +%s)'}' > "$path_item/cucumber-messages.ndjson"
-          echo "File created at: $path_system/cucumber-messages.ndjson"
-          echo "File created at: $path_item/cucumber-messages.ndjson"
+          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.ref_name }}', "sha": '${{ github.sha }}', "verification": "item", "timestamp": '$(date +%s)'}' > "$path_item/junit.xml"
         env:
           path_system: ${{ env.path_system }}
           path_item: ${{ env.path_item}}
@@ -60,7 +58,7 @@ jobs:
       - name: Create path
         id: set_paths
         run: |
-          path_sbom="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/sbom"
+          path_sbom="${{ github.sha }}/sbom"
           mkdir -p $path_sbom # Create the directory structure
           echo "path_sbom=$path_sbom" >> $GITHUB_ENV
           echo "Created path at $path_sbom"
@@ -127,7 +125,3 @@ jobs:
          name: cucumber-test-results
          path: ${{ steps.run-tests.outputs.report_file }}
          
-    # - name: Anchore SBOM Action
-    #   uses: anchore/sbom-action@v0.16.0
-    #   with: 
-    #     path: ./build/
