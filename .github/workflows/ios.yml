@@ -19,8 +19,10 @@ jobs:
         run: |
           path_system="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/system"
           path_item="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/item"
+          path_sbom="${{ github.repository }}/${{ github.ref_name }}/${{ github.sha }}/sbom"
           echo "path_system=$path_system" >> $GITHUB_ENV
           echo "path_item=$path_item" >> $GITHUB_ENV
+          echo "path_sbom=$path_sbom" >> $GITHUB_ENV
       - name: Create Dummy Verification Test Files
         run: |
           mkdir -p "$path_system"  # Create the directory structure
@@ -32,9 +34,26 @@ jobs:
         env:
           path_system: ${{ env.path_system }}
           path_item: ${{ env.path_item}}
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Install CDXGen and build SBOM
+        run: |
+          npm install -g @cyclonedx/cdxgen
+          cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
+      - name: Upload SBOM
+        id: upload-sbom
+        uses: coauthor-app/capture-action@v1
+        with:
+          evidence: 'cybersecurity'
+          type: 'sbom'
+          format: 'cyclonedx'
+          hostname: ${{ vars.UPLOAD_JOB }}
+          path: '${{ env.path_sbom }}/**'
       - name: Upload System Verificaiton
         id: upload-system-ver
-        uses: coauthor-app/capture-action@v0.1.0-beta
+        uses: coauthor-app/capture-action@v1
         with:
           evidence: 'system-verification'
           type: 'bdd'
@@ -43,7 +62,7 @@ jobs:
           path: '${{ env.path_system }}/**'
       - name: Upload Item Verificaiton
         id: upload-item-ver
-        uses: coauthor-app/capture-action@v0.1.0-beta
+        uses: coauthor-app/capture-action@v1
         with:
           evidence: 'item-verification'
           type: 'bdd'
