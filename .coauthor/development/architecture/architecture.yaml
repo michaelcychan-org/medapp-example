@@ -1,0 +1,4 @@
+Modules:
+  - Name: System
+    Description: This is core module description.
+    ID: system
