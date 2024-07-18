@@ -134,11 +134,6 @@ jobs:
           report_file=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsForCucumberSwiftSampleUITests.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           echo "Report file: $report_file"
           echo "::set-output name=report_file::$report_file"
-      - name: Convert XCTest Result to junit
-        run: |
-
-        with:
-          path: ${{steps.run-tests.outputs.report_file}}
       - name: Upload Cucumber Test Results
         uses: actions/upload-artifact@v4
         with:
