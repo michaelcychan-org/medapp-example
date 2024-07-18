@@ -122,9 +122,10 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" 
-          echo $file_to_build
-          ls -l $file_to_build
-          find "$file_to_build" -type f -name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output "${ENV_PATH_TEST_REPORTS}"' sh {} \;
+          build_settings=$(xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -showBuildSettings)
+          output_dir=$(echo "$build_settings" | awk '/BUILD_ROOT/ {print $3}')
+          echo "Output directory: $output_dir"
+          find $output_dir -type f -name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output "${ENV_PATH_TEST_REPORTS}"' sh {} \;
           ls -l ${{ env.path_test_reports }}
           # Retrieve TARGETNAME dynamically
           TARGETNAME=$(xcodebuild -list | grep -A 1 "Targets:" | tail -n 1 | awk '{$1=$1;print}')
@@ -133,7 +134,11 @@ jobs:
           report_file=$(find ~/Library/Developer/CoreSimulator/Devices/$TARGET_DEVICE_IDENTIFIER -name "CucumberTestResultsForCucumberSwiftSampleUITests.json" -print0 | xargs -r -0 ls -1 -t | head -1)
           echo "Report file: $report_file"
           echo "::set-output name=report_file::$report_file"
-          
+      - name: Convert XCTest Result to junit
+        run: |
+
+        with:
+          path: ${{steps.run-tests.outputs.report_file}}
       - name: Upload Cucumber Test Results
         uses: actions/upload-artifact@v4
         with:
