@@ -125,7 +125,7 @@ jobs:
           # Replace "Build/Products" with "Logs/Test/"
           output_dir=$(echo "$output_dir" | sed 's|Build/Products|Logs/Test|')
           echo "Output directory: $output_dir"
-          ls $output_dir
+          ls -l $output_dir
           find $output_dir -type f -name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output "${ENV_PATH_TEST_REPORTS}"' sh {} \;
           ls -l ${{ env.path_test_reports }}
           # Retrieve TARGETNAME dynamically
