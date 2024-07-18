@@ -124,7 +124,7 @@ jobs:
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" 
           echo $file_to_build
           ls -l $file_to_build
-          find $file_to_build -type f name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output ${{ env.path_test_reports }}/' _ {} \;
+          find "$file_to_build" -type f -name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output "${ENV_PATH_TEST_REPORTS}"' sh {} \;
           ls -l ${{ env.path_test_reports }}
           # Retrieve TARGETNAME dynamically
           TARGETNAME=$(xcodebuild -list | grep -A 1 "Targets:" | tail -n 1 | awk '{$1=$1;print}')
