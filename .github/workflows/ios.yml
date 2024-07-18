@@ -124,6 +124,7 @@ jobs:
           xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" 
           build_settings=$(xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" -showBuildSettings)
           output_dir=$(echo "$build_settings" | awk '/BUILD_ROOT/ {print $3}')
+          output_dir="${output_dir/Build\/Products/Logs\/Test}"
           echo "Output directory: $output_dir"
           find $output_dir -type f -name "*.xcresult" -exec sh -c 'cat "$1" | xcpretty --report junit --output "${ENV_PATH_TEST_REPORTS}"' sh {} \;
           ls -l ${{ env.path_test_reports }}
