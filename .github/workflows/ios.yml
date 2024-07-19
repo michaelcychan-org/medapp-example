@@ -131,7 +131,7 @@ jobs:
           echo "Report file: $report_file"
           echo "::set-output name=report_file::$report_file"
       - name: Upload Item Verification (Unit Test Result)
-        uses: actions/capture-action@v1
+        uses: coauthor-app/capture-action@v1
         with:
           evidence: 'item-verification'
           type: 'test'
