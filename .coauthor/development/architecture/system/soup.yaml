@@ -1,6 +1,6 @@
 Name: System
 SOUP:
-  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift@2.35.5
+  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift@2.36.0
     Manufacturer: AWS
     PackageManager: Swift Package Manager
     Requirement: |
