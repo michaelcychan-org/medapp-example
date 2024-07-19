@@ -18,18 +18,13 @@ jobs:
         id: set_paths
         run: |
           path_system="${{ github.sha }}/system"
-          path_item="${{ github.sha }}/item"
           echo "path_system=$path_system" >> $GITHUB_ENV
-          echo "path_item=$path_item" >> $GITHUB_ENV
       - name: Create Dummy Verification Test Files
         run: |
           mkdir -p "$path_system"  # Create the directory structure
-          mkdir -p "$path_item"  # Create the directory structure
           echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.ref_name }}', "sha": '${{ github.sha }}', "verification": "system", "timestamp": '$(date +%s)'}' > "$path_system/cucumber-messages.ndjson"
-          echo '{"owner": '${{ github.repository_owner }}', "repository": '${{ github.repository }}', "branch": '${{ github.ref_name }}', "sha": '${{ github.sha }}', "verification": "item", "timestamp": '$(date +%s)'}' > "$path_item/junit.xml"
         env:
           path_system: ${{ env.path_system }}
-          path_item: ${{ env.path_item}}
       - name: Upload System Verificaiton
         id: upload-system-ver
         uses: coauthor-app/capture-action@v1
@@ -39,15 +34,6 @@ jobs:
           format: 'cucumber+ndjson'
           hostname: ${{ vars.UPLOAD_JOB }}
           path: '${{ env.path_system }}/**'
-      - name: Upload Item Verificaiton
-        id: upload-item-ver
-        uses: coauthor-app/capture-action@v1
-        with:
-          evidence: 'item-verification'
-          type: 'test'
-          format: 'junit'
-          hostname: ${{ vars.UPLOAD_JOB }}
-          path: '${{ env.path_item }}/**'
   build:
     name: Build and Test default scheme using any available iPhone simulator
     runs-on: macos-latest
