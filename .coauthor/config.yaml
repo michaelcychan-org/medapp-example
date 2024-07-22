@@ -11,8 +11,7 @@ SoftwareClassification:
     HazardousSituationPossible: false
   SafetyClass: A
   Rationale: |
-    This is a class A rationale
-    This is a class A rationale
+    This is a class A software as it does not directly impact patient safety.
 TestingTools:
   SystemTesting:
     - Cucumber
