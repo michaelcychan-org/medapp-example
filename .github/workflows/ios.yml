@@ -93,6 +93,7 @@ jobs:
           cd ..
           git clone https://github.com/cpisciotta/xcbeautify.git
           cd xcbeautify
+          git checkout tags/2.4.1
           make install
       - name: Test
         id: run-tests
