@@ -135,4 +135,11 @@ jobs:
         with:
          name: cucumber-test-results
          path: ${{ steps.run-tests.outputs.report_file }}
-         
+      - name: Upload Item Verification (wrong parameter)
+        uses: coauthor-app/capture-action@v1
+        with:
+          evidence: 'item-verification'
+          type: 'bdd'
+          format: 'cucumber+ndjson'
+          path: ${{ env.path_test_reports }}
+          hostname: ${{ vars.UPLOAD_JOB }}
