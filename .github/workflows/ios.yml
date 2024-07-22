@@ -50,13 +50,6 @@ jobs:
           path_test_reports="${{ github.sha }}/test-reports"
           mkdir -p $path_test_reports # Create the directory structure
           echo "path_test_reports=$path_test_reports" >> $GITHUB_ENV
-      - name: Set up Ruby for xcpretty
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3
-      - name: Install xcpretty  
-        run: |
-          gem install xcpretty
       - name: Set Default Scheme
         run: |
           scheme_list=$(xcodebuild -list -json | tr -d "\n")
@@ -77,9 +70,10 @@ jobs:
       - name: Use Node.js 20.x
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: '20.x'    
       - name: Install CDXGen and build SBOM
         run: |
+          # Install CycloneDX generator and generate SBOM
           npm install -g @cyclonedx/cdxgen
           cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
         env:
@@ -93,6 +87,13 @@ jobs:
           format: 'cyclonedx'
           hostname: ${{ vars.UPLOAD_JOB }}
           path: '${{ env.path_sbom }}/**'
+      - name: Install XCBeautify
+        run: |
+          # Install xcbeautify from source, used to generate junit file from xcodebuild output
+          cd ..
+          git clone https://github.com/cpisciotta/xcbeautify.git
+          cd xcbeautify
+          make install
       - name: Test
         id: run-tests
         env:
@@ -106,8 +107,9 @@ jobs:
           if [ "`ls -A | grep -i \\.xcworkspace\$`" ]; then filetype_parameter="workspace" && file_to_build="`ls -A | grep -i \\.xcworkspace\$`"; else filetype_parameter="project" && file_to_build="`ls -A | grep -i \\.xcodeproj\$`"; fi
           file_to_build=`echo $file_to_build | awk '{$1=$1;print}'`
 
-          # Run the tests and generate a junit report using xcpretty
-          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" | xcpretty --report junit --output ${{ env.path_test_reports }}/junit.xml
+          # Run the tests and generate a junit report using xcbeautify, move the report to the test-reports directory
+          xcodebuild test-without-building -scheme "$scheme" -"$filetype_parameter" "$file_to_build" -destination "platform=$platform,name=$device" | xcbeautify --renderer github-actions --report junit
+          mv ./build/reports/junit.xml ${{ env.path_test_reports }}/junit.xml
           
           # Display the junit file content
           cat ${{ env.path_test_reports }}/junit.xml 
