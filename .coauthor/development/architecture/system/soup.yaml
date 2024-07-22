@@ -1,6 +1,6 @@
 Name: System
 SOUP:
-  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift@2.36.0
+  - PURL: pkg:swift/github.com/aws-amplify/amplify-swift@2.35.5
     Manufacturer: AWS
     PackageManager: Swift Package Manager
     Requirement: |
@@ -64,11 +64,11 @@ SOUP:
     VerificationReasoning: |
       Verification Reasoning Line 1
       Verification Reasoning Line 2
-  - PURL: pkg:swift/github.com/apple/swift-log@1.6.1
+  - PURL: pkg:swift/github.com/application-source/third-party-package@1.0.1
     Manufacturer: SC
     PackageManager: Swift Package Manager
     Requirement: |
-      This is to for logging.
+      This is not included in SBOM.
     VerificationReasoning: |
       Verification Reasoning Line 1
       Verification Reasoning Line 2
