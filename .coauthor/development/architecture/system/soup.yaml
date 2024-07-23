@@ -55,7 +55,7 @@ SOUP:
       This is a Smithy package for Swift.
     VerificationReasoning: |
       Verification Reasoning Line 1
-      Verification Reasoning Line 2
+      We are changing this line.
   - PURL: pkg:swift/github.com/stephencelis/SQLite.swift@0.15.3
     Manufacturer: SC
     PackageManager: Swift Package Manager
