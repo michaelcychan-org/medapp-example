@@ -2,7 +2,7 @@
 
 ## Hi,
 
-The project is built using Coauthor to validate
+The project is built using Coauthor to validate check runs
 
 - [x] Uses cucumber swift for writing tests
 - [x] To add new tests we must update the .feature files
