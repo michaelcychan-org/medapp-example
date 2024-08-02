@@ -78,7 +78,7 @@ jobs:
           cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
         env:
           path_sbom: ${{ env.path_sbom }}
-      - name: Upload SBOM
+      - name: Upload SBOM to Coauthor
         id: upload-sbom
         uses: coauthor-app/capture-action@v1
         with:
