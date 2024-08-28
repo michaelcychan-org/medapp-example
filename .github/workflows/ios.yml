@@ -130,9 +130,3 @@ jobs:
           format: 'junit'
           path: ${{ env.path_test_reports }}
           hostname: ${{ vars.UPLOAD_JOB }}
-      - name: Upload Cucumber Test Results
-        uses: actions/upload-artifact@v4
-        with:
-         name: cucumber-test-results
-         path: ${{ steps.run-tests.outputs.report_file }}
-         
