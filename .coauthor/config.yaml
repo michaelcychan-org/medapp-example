@@ -1,8 +1,8 @@
 Company: michaelcychan-org
 Application: Example SaMD
 ProductDescription: |
-  This is an example application for Coauthor Demo.
-  Coauthor is your Compliance Assist . Coauthor continually monitors your Software Development tools (GitHub) and technical file for compliance issues against IEC 62304 and highlights them in real-time to the software development team or QA/RA manager.
+  This is an example application for Coauthor Demo. This branch fails some tests
+  Coauthor is your Compliance Assist. Coauthor continually monitors your Software Development tools (GitHub) and technical file for compliance issues against IEC 62304 and highlights them in real-time to the software development team or QA/RA manager.
 Market:
   - EU
   - UK
@@ -11,8 +11,7 @@ SoftwareClassification:
     HazardousSituationPossible: false
   SafetyClass: A
   Rationale: |
-    This is a class A rationale
-    This is a class A rationale
+    This is a class A rationale.
 TestingTools:
   SystemTesting:
     - Cucumber

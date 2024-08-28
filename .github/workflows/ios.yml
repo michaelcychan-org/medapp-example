@@ -73,12 +73,12 @@ jobs:
           node-version: '20.x'    
       - name: Install CDXGen and build SBOM
         run: |
-          # Install CycloneDX generator and generate SBOM
+          # Install CycloneDX generator and generate SBOM from build
           npm install -g @cyclonedx/cdxgen
           cdxgen -t swift -o ${{ env.path_sbom }}/bom.json -p --spec-version 1.6
         env:
           path_sbom: ${{ env.path_sbom }}
-      - name: Upload SBOM
+      - name: Upload SBOM to Coauthor
         id: upload-sbom
         uses: coauthor-app/capture-action@v1
         with:
@@ -87,13 +87,13 @@ jobs:
           format: 'cyclonedx'
           hostname: ${{ vars.UPLOAD_JOB }}
           path: '${{ env.path_sbom }}/**'
-      - name: Install XCBeautify
+      - name: Install XCBeautify 2.11.0
         run: |
           # Install xcbeautify from source, used to generate junit file from xcodebuild output
           cd ..
           git clone https://github.com/cpisciotta/xcbeautify.git
           cd xcbeautify
-          git checkout tags/2.4.1
+          git checkout tags/2.11.0
           make install
       - name: Test
         id: run-tests
@@ -130,9 +130,3 @@ jobs:
           format: 'junit'
           path: ${{ env.path_test_reports }}
           hostname: ${{ vars.UPLOAD_JOB }}
-      - name: Upload Cucumber Test Results
-        uses: actions/upload-artifact@v4
-        with:
-         name: cucumber-test-results
-         path: ${{ steps.run-tests.outputs.report_file }}
-         
