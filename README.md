@@ -1,4 +1,4 @@
-[![iOS Tests](https://github.com/hindsightsoftware/medapp-example/actions/workflows/ios.yml/badge.svg)](https://github.com/hindsightsoftware/medapp-example/actions/workflows/ios.yml)
+[![iOS Tests](https://github.com/michaelcychan-org/medapp-example/actions/workflows/ios.yml/badge.svg)](https://github.com/michaelcychan-org/medapp-example/actions/workflows/ios.yml)
 
 ## Hi,
 

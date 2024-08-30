@@ -68,7 +68,7 @@ SOUP:
     Manufacturer: SC
     PackageManager: Swift Package Manager
     Requirement: |
-      This is not included in SBOM to test the GH Check. again
+      This intentionally fails GH Check as test.
     VerificationReasoning: |
       Verification Reasoning Line 1
       Verification Reasoning Line 2
