@@ -1,7 +1,7 @@
 Company: michaelcychan-org
 Application: Medapp Example
 ProductDescription: |
-  This is an example application for Coauthor Demo.
+  This is an example SaMD for Coauthor Demo.
   Coauthor is your Compliance Assist . Coauthor continually monitors your Software Development tools (GitHub) and technical file for compliance issues against IEC 62304 and highlights them in real-time to the software development team or QA/RA manager.
 Market:
   - EU
